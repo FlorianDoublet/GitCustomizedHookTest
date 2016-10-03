@@ -2,7 +2,7 @@
 function git ()
 {
 	## declare an array variable which contains git repository path which have to be managed
-	declare -a indexed_dirs=( "/home/florian/gitTest/GitHooksTests" )
+	declare -a indexed_dirs=( "/home/florian/gitTest/GitHooksTests")
 	
 	for dir in "${indexed_dirs[@]}"; do 
 		if [[ "$PWD" == *"$dir"* ]]; then
