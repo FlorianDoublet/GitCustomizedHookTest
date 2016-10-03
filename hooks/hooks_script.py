@@ -12,7 +12,7 @@ git_cmd = "/usr/bin/git"
 user_refact_msg = "user refactor (will be deleted)"
 
 def main(argv):
-	
+	print("COUCOU NOUS SOMME LA ")
 	if "pull" in argv :
 		pull_hook(argv)
 	elif "push" in argv :
@@ -39,8 +39,8 @@ def pull_hook(argv):
 
 def pre_pull():
 	nb_commit_to_check = 2
-	last_commits = execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  nb_commit_to_check ]; print_it=False )
-	last_commits = last_commit.splitlines()
+	last_commits = execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  str(nb_commit_to_check) ], print_it=False )
+	last_commits = last_commits.splitlines()
 	position_in_head = find_position_of_a_commit(last_commits, user_refact_msg)
 	
 	#On reset le commit
@@ -63,7 +63,7 @@ def post_pull():
 	
 
 #find the positon of a commit in HEAD thank to his message
-def find_position_of_a_commit(commit_list, commit_message)
+def find_position_of_a_commit(commit_list, commit_message):
 	head = 1;
 	for commit in commit_list :
 		if commit_message in commit :
