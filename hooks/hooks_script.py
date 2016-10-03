@@ -18,36 +18,59 @@ def main(argv):
 	elif "push" in argv :
 		push_hook(argv)
 	else :
-		print("commande originale :")
-		print(argv)
+		print("commande originale.")
 		full_cmd = argv
 		full_cmd.insert(0, git_cmd)
 		execute_cmd(full_cmd)
-	
+
 	
 
 def pull_hook(argv):
-	#pre_pull (nothing to do here for the moment)
-	
-	#we execute the real git pull
+	#pre_pull 
+	pre_pull()
 
-	#built the array for the command and args
 	full_cmd = argv
 	full_cmd.insert(0, git_cmd)
 	#launch the real pull cmb given by the user
 	res = execute_cmd(full_cmd)
-
-	#if it's already up to date we don't have to do anything anymore
-	if "Already up-to-date 444" in res :
-		return
 		
 	#post_pull 
-	execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  "4" ] )
 	res = post_pull()
+
+def pre_pull():
+	nb_commit_to_check = 2
+	last_commits = execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  nb_commit_to_check ]; print_it=False )
+	last_commits = last_commit.splitlines()
+	position_in_head = find_position_of_a_commit(last_commits, user_refact_msg)
 	
+	#On reset le commit
+	#On reformat-serv
+	#On refait le commit si il y en avait un 
+	
+	#if the commit was found
+	if position_in_head :
+		commit_message = None
+		if position_in_head != 1 :
+			commit_message = last_commits[position_in_head - 1].split(" ", 1)
+		#reset to HEAD~N	
+		git_reset_head(position_in_head)
+		
+		#we do the server refactor
+		srv_refactor(commit_message)
+
 def post_pull():
 	user_refactor()
 	
+
+#find the positon of a commit in HEAD thank to his message
+def find_position_of_a_commit(commit_list, commit_message)
+	head = 1;
+	for commit in commit_list :
+		if commit_message in commit :
+			return head
+		else :
+			head += 1
+	return None
 	
 def push_hook(argv):
 	print("push hook")
@@ -55,8 +78,14 @@ def push_hook(argv):
 	#first, pre_push operations
 	commit_msg = pre_push()
 
-	#and we process to the server_refactoring (push included)
-	res = srv_refactor(argv, commit_msg)
+	#and we process to the server_refactoring
+	srv_refactor(commit_msg)
+	
+	#we push it with the real push cmd given by the user
+	full_cmd = argv
+	full_cmd.insert(0, git_cmd)
+	res = execute_cmd(full_cmd)
+	
 	
 	if res != 0 :
 		print("on verra")
@@ -65,7 +94,7 @@ def push_hook(argv):
 
 def pre_push():
 	#get the two last commit sha1 and message
-	two_last_commit = execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  "2" ] )
+	two_last_commit = execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  "2" ], print_it=False)
 	#get the messages of the commits
 	first_commit_sha1_msg = two_last_commit.splitlines()[0].split(" ", 1)
 	second_commit_sha1_msg = two_last_commit.splitlines()[1].split(" ", 1)
@@ -89,7 +118,7 @@ def post_push():
 	user_refactor()
 	
 
-def srv_refactor(argv, commit_msg=None):
+def srv_refactor(commit_msg=None):
 	
 	#TODO : le refactoring server
 	#Du coup je fait un mock pour le moment
@@ -100,10 +129,6 @@ def srv_refactor(argv, commit_msg=None):
 		git_add_all()
 		git_simple_commit(commit_msg)
 	
-	#we push it with the real push cmd given by the user
-	full_cmd = argv
-	full_cmd.insert(0, git_cmd)
-	return execute_cmd(full_cmd)
 	
 def user_refactor():
 	#TODO : le user refactoring
