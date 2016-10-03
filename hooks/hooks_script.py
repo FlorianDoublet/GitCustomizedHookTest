@@ -51,7 +51,7 @@ def pre_pull():
 	if position_in_head :
 		commit_message = None
 		if position_in_head != 1 :
-			commit_message = last_commits[position_in_head - 1].split(" ", 1)
+			commit_message = last_commits[0].split(" ", 1)[1]
 		#reset to HEAD~N	
 		git_reset_head(position_in_head)
 		
