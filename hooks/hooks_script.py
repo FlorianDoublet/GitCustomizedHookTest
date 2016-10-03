@@ -56,7 +56,7 @@ def pre_pull():
 		git_reset_head(position_in_head)
 		
 		#we do the server refactor
-		srv_refactor(commit_message)
+		srv_refactor(str(commit_message))
 
 def post_pull():
 	user_refactor()
