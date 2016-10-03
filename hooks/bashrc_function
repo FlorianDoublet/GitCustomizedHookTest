@@ -1,0 +1,32 @@
+#PERSONAL TEST FOR CUSTOMIZED GIT HOOKS
+function git ()
+{
+	## declare an array variable which contains git repository path which have to be managed
+	declare -a indexed_dirs=( "/home/florian/gitTest/GitHooksTests" )
+	
+	for dir in "${indexed_dirs[@]}"; do 
+		if [[ "$PWD" == *"$dir"* ]]; then
+		
+			echo "customized git"
+			
+			#python script for customized hooks
+			python_script="hooks/hooks_script.py"
+			
+			#complet path to find the script
+			script_path="$dir/$python_script"
+			
+			#check if the script exist or not
+			if [ -f $script_path ]; then
+			   #we can lauch the script with the git arguments
+			   python3 $script_path "$@"
+			else
+			   echo "Error : the git custom hook file $script_path should exist. If this repository shouldn't contain custom git hooks anymore please fix it in ~.bashrc and then run source ~/.bashrc"
+			fi
+			
+			return
+		fi
+	done
+	
+	## if $PWD don't contain any indexed dirs, then launch the git command by default with their arguments
+	/usr/bin/git $@
+}
