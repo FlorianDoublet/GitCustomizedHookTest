@@ -6,12 +6,14 @@ import subprocess
 from subprocess import Popen, PIPE
 import time
 import pexpect
-import shutil
+import shutil, errno
+from distutils.dir_util import copy_tree
+
 
 hooked_commands = ["pull", "push"]
 git_cmd = "/usr/bin/git"
 user_refact_msg = "user refactor (will be deleted)"
-unpushed_commit_folder = "/hooks/.tmp_refac/"
+unpushed_commit_folder = "hooks/.tmp_refac/"
 unpushed_commit_file_name = "unpushed_commit"
 
 def main(argv):
@@ -30,24 +32,36 @@ def main(argv):
 
 
 
-def commit_hook(argv):
-	pre_commit()
-	
+def commit_hook(argv):	
 	# Real commit
 	full_cmd = argv
 	full_cmd.insert(0, git_cmd)
 	res = execute_cmd(full_cmd)
 	
 	post_commit()
-	
-def pre_commit() :
-	# Nothing to do 
+
 	
 def post_commit() :
-	# TODO
-
-def update_unpushed_commit_file(branch_name, sha1, message):
-	# TODO
+	sha1 = ""
+	branch_name = ""
+	message = ""
+	
+	branch_name = execute_cmd( [ git_cmd, "rev-parse", "--abbrev-ref", "HEAD"], print_it=False ).strip()
+	log_res = execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  "1" ], print_it=False )
+	log_values = log_res.split(" ", 1)
+	sha1 = log_values[0]
+	message = log_values[1]
+	
+	update_unpushed_commit_file(sha1, branch_name, message)
+	
+	
+def update_unpushed_commit_file(sha1, branch_name, message):
+	path = get_root_directory() + "/" + unpushed_commit_folder
+	
+	if not os.path.exists(path):
+		os.makedirs(path)
+	
+	write_file(path + unpushed_commit_file_name, sha1 + " " + branch_name + " " + message) 
 
 def pull_hook(argv):
 	#pre_pull 
@@ -217,34 +231,62 @@ def copy_unpushed_commit_file(sha1, pathname, path_file_to_copy):
 	#write the file to the wanted path
 	write_file(complete_copyfile_path, file_str, mode="w")
 	
-def write_file(path, data, mode="a"):
+def write_file(path, data, mode="a+"):
 	f = open(path, mode)
 	f.write(data)
 	f.close()
+
+def recreate_unpushed_commits():
+	#TODO : finir ca
+	
+	#unpushed_commit_info_list = parse_unpushed_commit_tmp()
+	
+	
+	#test copy folder
+	copyanything(get_root_directory() + unpushed_commit_folder + "shadir", get_root_directory())
+	
+	
+	#for commit_hash in unpushed_commit_info_list:
+	unpushed_commit_list = parse_unpushed_commit_tmp()
+	
+	for commit_hash in unpushed_commit_list:
+		unpushed_commit = get_root_directory() + unpushed_commit_folder + commit_hash["sha1"]
+		#copy all the file 
+		copyanything(unpushed_commit, get_root_directory())
+		#gerer les cas chiant PLUS TARD
+		
+		
+
+def copyanything(src, dst):
+    # copy subdirectory example
+	fromDirectory = src
+	toDirectory = dst
+
+	copy_tree(fromDirectory, toDirectory)
+
+		
 
 #return a hash of information for all the unpushed commit
 def parse_unpushed_commit_tmp():
 	path = get_root_directory() + unpushed_commit_folder + unpushed_commit_file_name
 	
 	#array with the parsed info
-	commit_info = []
+	commit_info_list = []
 	file_str_array = read_file(path).splitlines()
 	
 	for line in file_str_array:
 		#split with the 2 first space char
 		l_parse = line.split(" ", 2)
-		commit_info.append({ "sha1" : l_parse[0], "branch" : l_parse[1], "message" : l_parse[2] })
-	return commit_info
-	
-	
-	
+		commit_info_list.append({ "sha1" : l_parse[0], "branch" : l_parse[1], "message" : l_parse[2] })
+	return commit_info_list
 	
 
 def delete_folder_with_files(path):
 	shutil.rmtree(path)
 	
 def get_root_directory():
-	return execute_cmd([ git_cmd, "rev-parse" ,"--show-toplevel" ], print_it=False)
+	root_dir = execute_cmd([ git_cmd, "rev-parse" ,"--show-toplevel" ], print_it=False).strip()
+	return root_dir + "/"
 
 if __name__ == "__main__":
    main(sys.argv[1:])
