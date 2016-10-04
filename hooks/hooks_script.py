@@ -10,6 +10,7 @@ import pexpect
 hooked_commands = ["pull", "push"]
 git_cmd = "/usr/bin/git"
 user_refact_msg = "user refactor (will be deleted)"
+unpushed_commit_folder = "hooks/tmp-refac/"
 
 def main(argv):
 
@@ -174,7 +175,31 @@ def execute_cmd(arg_list, print_it=True):
 	if proc.returncode != 0 :
 		return proc.returncode
 	return stdout_value
+	
+	
 
+
+def read_file(path):
+	f = open(path, 'r')
+	file_str = f.read()
+	f.close()
+	return file_str
+
+#pathname include the complete path from the source repo
+def copy_unpushed_commit_file(sha1, pathname, file_str):
+	
+	new_file_name = sha1 + "/" + pathname
+	
+	f = open(path, 'w')
+
+def write_file(path, data, mode="a"):
+	f = open(path, mode)
+	f.write(data)
+	f.close()
+	
+
+def get_root_directory():
+	return execute_cmd([ git_cmd, "rev-parse" ,"--show-toplevel" ], print_it=False)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
