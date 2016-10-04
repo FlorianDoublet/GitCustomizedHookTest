@@ -6,11 +6,13 @@ import subprocess
 from subprocess import Popen, PIPE
 import time
 import pexpect
+import shutil
 
 hooked_commands = ["pull", "push"]
 git_cmd = "/usr/bin/git"
 user_refact_msg = "user refactor (will be deleted)"
-unpushed_commit_folder = "hooks/tmp-refac/"
+unpushed_commit_folder = "/hooks/.tmp_refac/"
+unpushed_commit_file_name = "unpushed_commit"
 
 def main(argv):
 
@@ -175,8 +177,6 @@ def execute_cmd(arg_list, print_it=True):
 	if proc.returncode != 0 :
 		return proc.returncode
 	return stdout_value
-	
-	
 
 
 def read_file(path):
@@ -186,18 +186,42 @@ def read_file(path):
 	return file_str
 
 #pathname include the complete path from the source repo
-def copy_unpushed_commit_file(sha1, pathname, file_str):
+def copy_unpushed_commit_file(sha1, pathname, path_file_to_copy):
 	
+	#we read the file
+	file_str = read_file(path_file_to_copy)
+	#creation of the filename
 	new_file_name = sha1 + "/" + pathname
+	complete_copyfile_path = get_root_directory() + unpushed_commit_folder + new_file_name
+	#write the file to the wanted path
+	write_file(complete_copyfile_path, file_str, mode="w")
 	
-	f = open(path, 'w')
-
 def write_file(path, data, mode="a"):
 	f = open(path, mode)
 	f.write(data)
 	f.close()
+
+#return a hash of information for all the unpushed commit
+def parse_unpushed_commit_tmp():
+	path = get_root_directory() + unpushed_commit_folder + unpushed_commit_file_name
+	
+	#array with the parsed info
+	commit_info = []
+	file_str_array = read_file(path).splitlines()
+	
+	for line in file_str_array:
+		#split with the 2 first space char
+		l_parse = line.split(" ", 2)
+		commit_info.append({ "sha1" : l_parse[0], "branch" : l_parse[1], "message" : l_parse[2] })
+	return commit_info
+	
+	
+	
 	
 
+def delete_folder_with_files(path):
+	shutil.rmtree(path)
+	
 def get_root_directory():
 	return execute_cmd([ git_cmd, "rev-parse" ,"--show-toplevel" ], print_it=False)
 
