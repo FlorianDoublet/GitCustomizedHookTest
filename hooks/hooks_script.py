@@ -12,6 +12,7 @@ git_cmd = "/usr/bin/git"
 user_refact_msg = "user refactor (will be deleted)"
 
 def main(argv):
+
 	if "pull" in argv :
 		pull_hook(argv)
 	elif "push" in argv :
