@@ -20,13 +20,34 @@ def main(argv):
 		pull_hook(argv)
 	elif "push" in argv :
 		push_hook(argv)
+	elif "commit" in argv :
+		commit_hook(argv)
 	else :
 		print("commande originale.")
 		full_cmd = argv
 		full_cmd.insert(0, git_cmd)
 		execute_cmd(full_cmd)
 
+
+
+def commit_hook(argv):
+	pre_commit()
 	
+	# Real commit
+	full_cmd = argv
+	full_cmd.insert(0, git_cmd)
+	res = execute_cmd(full_cmd)
+	
+	post_commit()
+	
+def pre_commit() :
+	# Nothing to do 
+	
+def post_commit() :
+	# TODO
+
+def update_unpushed_commit_file(branch_name, sha1, message):
+	# TODO
 
 def pull_hook(argv):
 	#pre_pull 
