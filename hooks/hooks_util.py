@@ -1,5 +1,6 @@
 import subprocess
 from hooks_declare import *
+from hooks_commit import *
 from distutils.dir_util import copy_tree
 
 
@@ -47,16 +48,37 @@ def git_simple_commit(message):
 
 def git_reset_head(head):
 	execute_cmd( [ git_cmd, "reset",  ("HEAD~" + str(head)) ], print_it=False)
+
+def git_reset_head_hard(head):
+	execute_git_cmd( [ "reset", "--hard", ("HEAD~" + str(head)) ], print_it=False)
 	
 def git_add_all():
 	execute_cmd( [ git_cmd, "add", "--all"  ], print_it=False)
 
-#find the positon of a commit in HEAD thank to his message
-def find_position_of_a_commit(commit_list, commit_message):
+def get_the_x_last_commits(x):
+	last_commits = execute_git_cmd( [ "log",  "--pretty=oneline",  "-n",  str(x) ], False )
+	return last_commits.splitlines()
+
+#find the positon of a commit in HEAD thank to his message or sha1
+def find_position_of_a_commit(commit_list, commit_message_or_sha1):
 	head = 1;
 	for commit in commit_list :
-		if commit_message in commit :
+		if commit_message_or_sha1 in commit :
 			return head
 		else :
 			head += 1
 	return None
+
+
+def get_unpushed_commit_for_a_branch(branch_name):
+	unpushed_commit = parse_unpushed_commit_tmp()
+	branch_commit_list = []
+	for commit in unpushed_commit:
+		if commit["branch"] == branch_name:
+			branch_commit_list.append(commit)
+	if len(branch_commit_list) == 0:
+		return None
+	return branch_commit_list
+
+def change_branch(branch_name):
+	execute_git_cmd(["checkout", branch_name], False)
