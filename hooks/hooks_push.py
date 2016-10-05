@@ -2,6 +2,7 @@ from hooks_util import *
 from hooks_files import *
 from hooks_declare import *
 from hooks_commit import *
+from hooks_refactor import *
 
 def push_hook(argv):
 	print("push hook")
