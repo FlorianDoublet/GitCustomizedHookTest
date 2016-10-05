@@ -1,11 +1,13 @@
 import sys
 from hooks_util import *
 from hooks_commit import *
+from hooks_pull import *
+
 
 def main(argv):
 	if "pull" in argv :
 		print("Custom pull")
-		#pull_hook(argv)
+		pull_hook(argv)
 	elif "push" in argv :
 		print("Custom push")
 		#push_hook(argv)
