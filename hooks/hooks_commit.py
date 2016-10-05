@@ -19,6 +19,8 @@ def post_commit():
 	sha1 = log_values[0]
 	message = log_values[1]
 	
-	path = get_or_create_tmp_commit_folder(sha1)
-	print(path)
-	write_file(path + "/" + unpushed_commit_file_status, status)
+	tmp_folder = get_or_create_tmp_folder()
+	tmp_folder_commit = get_or_create_tmp_commit_folder(sha1)
+
+	write_file(tmp_folder + "/" + unpushed_commit_file_name, sha1 + " " + branch_name + " " + message)
+	write_file(tmp_folder_commit + "/" + unpushed_commit_file_status, status)
