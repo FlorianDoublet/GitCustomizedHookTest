@@ -4,6 +4,7 @@ from hooks_declare import *
 from hooks_commit import *
 from hooks_refactor import *
 
+
 def push_hook(argv):
 	print("push hook")
 	

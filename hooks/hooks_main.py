@@ -2,6 +2,7 @@ import sys
 from hooks_util import *
 from hooks_commit import *
 from hooks_pull import *
+from hooks_push import *
 
 
 def main(argv):
@@ -10,7 +11,7 @@ def main(argv):
 		pull_hook(argv)
 	elif "push" in argv :
 		print("Custom push")
-		#push_hook(argv)
+		push_hook(argv)
 	elif "commit" in argv :
 		print("Custom commit")
 		commit_hook(argv)
