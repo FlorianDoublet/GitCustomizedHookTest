@@ -10,7 +10,6 @@ import shutil, errno
 from distutils.dir_util import copy_tree
 
 
-hooked_commands = ["pull", "push"]
 git_cmd = "/usr/bin/git"
 user_refact_msg = "user refactor (will be deleted)"
 unpushed_commit_folder = "hooks/.tmp_refac/"
