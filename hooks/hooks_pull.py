@@ -8,11 +8,11 @@ def pull_hook(argv):
 	#command
 	execute_git_cmd(argv)
 	#post_pull 
-	res = post_pull()
+	post_pull()
 	
 def pre_pull():
 	nb_commit_to_check = 2
-	last_commits = execute_cmd( [ git_cmd, "log",  "--pretty=oneline",  "-n",  str(nb_commit_to_check) ], print_it=False )
+	last_commits = execute_git_cmd(["log",  "--pretty=oneline",  "-n",  str(nb_commit_to_check)], False)
 	last_commits = last_commits.splitlines()
 	position_in_head = find_position_of_a_commit(last_commits, user_refact_msg)
 	
