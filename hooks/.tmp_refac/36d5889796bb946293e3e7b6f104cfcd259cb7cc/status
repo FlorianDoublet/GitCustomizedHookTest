@@ -1,0 +1,17 @@
+A	hooks/.tmp_refac/4c11a5c18f1d6742ffecc9eb6aa51120b3d53c49/status
+D	hooks/.tmp_refac/unpushed_commit
+M	hooks/__pycache__/hooks_commit.cpython-35.pyc
+M	hooks/__pycache__/hooks_declare.cpython-35.pyc
+A	hooks/__pycache__/hooks_files.cpython-35.pyc
+M	hooks/__pycache__/hooks_util.cpython-35.pyc
+M	hooks/hooks_commit.py
+M	hooks/hooks_declare.py
+M	hooks/hooks_files.pyA	hooks/.tmp_refac/4c11a5c18f1d6742ffecc9eb6aa51120b3d53c49/status
+D	hooks/.tmp_refac/unpushed_commit
+M	hooks/__pycache__/hooks_commit.cpython-35.pyc
+M	hooks/__pycache__/hooks_declare.cpython-35.pyc
+A	hooks/__pycache__/hooks_files.cpython-35.pyc
+M	hooks/__pycache__/hooks_util.cpython-35.pyc
+M	hooks/hooks_commit.py
+M	hooks/hooks_declare.py
+M	hooks/hooks_files.py

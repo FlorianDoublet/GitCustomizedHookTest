@@ -1,0 +1,3 @@
+M	.gitignore
+M	hooks/__pycache__/hooks_commit.cpython-35.pyc
+M	hooks/hooks_commit.py
