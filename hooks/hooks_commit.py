@@ -41,6 +41,7 @@ def add_tmp_commit_files(status, tmp_folder_commit):
 def create_branch_for_commit(sha1):
 	execute_git_cmd([ "branch", sha1 ], False)
 
+
 def recreate_unpushed_commits():
 	#TODO : finir ca
 	
@@ -59,6 +60,7 @@ def recreate_unpushed_commits():
 		#copy all the file 
 		copyanything(unpushed_commit, get_root_directory())
 		#gerer les cas chiant PLUS TARD
+
 
 #return a hash of information for all the unpushed commit
 def parse_unpushed_commit_tmp():
