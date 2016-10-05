@@ -41,5 +41,35 @@ def add_tmp_commit_files(status, tmp_folder_commit):
 def create_branch_for_commit(sha1):
 	execute_git_cmd([ "branch", sha1 ], False)
 
-
+def recreate_unpushed_commits():
+	#TODO : finir ca
 	
+	#unpushed_commit_info_list = parse_unpushed_commit_tmp()
+	
+	
+	#test copy folder
+	copyanything(get_root_directory() + unpushed_commit_folder + "shadir", get_root_directory())
+	
+	
+	#for commit_hash in unpushed_commit_info_list:
+	unpushed_commit_list = parse_unpushed_commit_tmp()
+	
+	for commit_hash in unpushed_commit_list:
+		unpushed_commit = get_root_directory() + unpushed_commit_folder + commit_hash["sha1"]
+		#copy all the file 
+		copyanything(unpushed_commit, get_root_directory())
+		#gerer les cas chiant PLUS TARD
+
+#return a hash of information for all the unpushed commit
+def parse_unpushed_commit_tmp():
+	path = get_root_directory() + unpushed_commit_folder + unpushed_commit_file_name
+	
+	#array with the parsed info
+	commit_info_list = []
+	file_str_array = read_file(path).splitlines()
+	
+	for line in file_str_array:
+		#split with the 2 first space char
+		l_parse = line.split(" ", 2)
+		commit_info_list.append({ "sha1" : l_parse[0], "branch" : l_parse[1], "message" : l_parse[2] })
+	return commit_info_list
