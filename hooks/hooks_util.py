@@ -41,3 +41,22 @@ def execute_cmd(arg_list, print_it=True):
 
 def get_current_branch_name():
 	return execute_git_cmd( [ "rev-parse", "--abbrev-ref", "HEAD"], False ).strip()
+
+def git_simple_commit(message):
+	return execute_cmd([git_cmd, "commit", "-m", message ], print_it=False)
+
+def git_reset_head(head):
+	execute_cmd( [ git_cmd, "reset",  ("HEAD~" + str(head)) ], print_it=False)
+	
+def git_add_all():
+	execute_cmd( [ git_cmd, "add", "--all"  ], print_it=False)
+
+#find the positon of a commit in HEAD thank to his message
+def find_position_of_a_commit(commit_list, commit_message):
+	head = 1;
+	for commit in commit_list :
+		if commit_message in commit :
+			return head
+		else :
+			head += 1
+	return None
