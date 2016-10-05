@@ -30,3 +30,13 @@ def get_or_create_tmp_folder() :
 
 def get_root_directory():
 	return execute_cmd([ git_cmd, "rev-parse" ,"--show-toplevel"], print_it=False).strip()
+
+
+def read_file(path):
+	f = open(path, 'r')
+	file_str = f.read()
+	f.close()
+	return file_str
+
+def delete_folder_with_files(path):
+	shutil.rmtree(path)
