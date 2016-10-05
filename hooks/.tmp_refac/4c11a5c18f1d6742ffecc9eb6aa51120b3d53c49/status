@@ -1,7 +1,0 @@
-A	hooks/__pycache__/hooks_commit.cpython-35.pyc
-A	hooks/__pycache__/hooks_declare.cpython-35.pyc
-A	hooks/__pycache__/hooks_util.cpython-35.pyc
-A	hooks/hooks_commit.py
-A	hooks/hooks_files.py
-M	hooks/hooks_script.py
-A	hooks/hooks_util.py

@@ -1,5 +1,13 @@
 import subprocess
 from hooks_declare import *
+from distutils.dir_util import copy_tree
+
+
+def copy_folder(src, dst):
+    # copy subdirectory example
+	fromDirectory = src
+	toDirectory = dst
+	copy_tree(fromDirectory, toDirectory)
 
 # Execute "git diff HEAD~1 HEAD"
 def get_diff_between_two_last_commit():

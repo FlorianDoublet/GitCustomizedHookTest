@@ -1,6 +1,8 @@
 from hooks_util import *
 from hooks_files import *
 from hooks_declare import *
+from shutil import copyfile
+from shutil import copy2
 
 def commit_hook(argv):	
 	#execute_git_cmd(argv, False)
@@ -24,3 +26,17 @@ def post_commit():
 
 	write_file(tmp_folder + "/" + unpushed_commit_file_name, sha1 + " " + branch_name + " " + message)
 	write_file(tmp_folder_commit + "/" + unpushed_commit_file_status, status)
+	add_tmp_commit_files(status, tmp_folder_commit)
+	print(sha1)
+
+
+def add_tmp_commit_files(status, tmp_folder_commit):
+	file_str_array = status.splitlines()
+	
+	for line in file_str_array:
+		l_parse = line.split("\t", 1)
+		if l_parse[0] == "M" or l_parse[0] == "A" :
+			src = get_root_directory() + "/" + l_parse[1]
+			print(src)
+			copyfile(src, tmp_folder_commit)
+	
