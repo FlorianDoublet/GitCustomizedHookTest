@@ -22,12 +22,9 @@ def post_commit():
 	message = log_values[1]
 	
 	tmp_folder = get_or_create_tmp_folder()
-	tmp_folder_commit = get_or_create_tmp_commit_folder(sha1)
 
 	write_file(tmp_folder + "/" + unpushed_commit_file_name, sha1 + " " + branch_name + " " + message)
-	write_file(tmp_folder_commit + "/" + unpushed_commit_file_status, status)
-	add_tmp_commit_files(status, tmp_folder_commit)
-	print(sha1)
+
 
 
 def add_tmp_commit_files(status, tmp_folder_commit):
@@ -39,4 +36,10 @@ def add_tmp_commit_files(status, tmp_folder_commit):
 			src = get_root_directory() + "/" + l_parse[1]
 			print(src)
 			copyfile(src, tmp_folder_commit)
+
+
+def create_branch_for_commit(sha1):
+	execute_git_cmd([ "branch", sha1 ], False)
+
+
 	

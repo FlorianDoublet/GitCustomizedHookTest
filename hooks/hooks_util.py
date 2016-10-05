@@ -38,3 +38,6 @@ def execute_cmd(arg_list, print_it=True):
 	if proc.returncode != 0 :
 		return proc.returncode
 	return stdout_value
+
+def get_current_branch_name():
+	return execute_git_cmd( [ "rev-parse", "--abbrev-ref", "HEAD"], False ).strip()
