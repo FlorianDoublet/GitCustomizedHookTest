@@ -4,16 +4,16 @@ from hooks_commit import *
 
 def main(argv):
 	if "pull" in argv :
-		print("custom pull")
+		print("Custom pull")
 		#pull_hook(argv)
 	elif "push" in argv :
-		print("custom push")
+		print("Custom push")
 		#push_hook(argv)
 	elif "commit" in argv :
-		print("custom commit")
+		print("Custom commit")
 		commit_hook(argv)
 	else :
-		print("original command")
+		print("Original command")
 		execute_git_cmd(argv, True)
 
 if __name__ == "__main__":
