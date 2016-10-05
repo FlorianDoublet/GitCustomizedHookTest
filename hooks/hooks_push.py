@@ -80,6 +80,7 @@ def pre_push():
 
 	#5
 	change_branch(current_branch)
+	merge_branch(oldest_commit["sha1"])
 
 	#TODO finir la tache 6 !
 

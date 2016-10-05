@@ -82,3 +82,6 @@ def get_unpushed_commit_for_a_branch(branch_name):
 
 def change_branch(branch_name):
 	execute_git_cmd(["checkout", branch_name], False)
+
+def merge_branch(to_merge):
+	execute_git_cmd(["merge", to_merge], False)
