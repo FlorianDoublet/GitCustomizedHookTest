@@ -7,7 +7,7 @@ import hooks_util
 
 def write_file(path, data, mode="a+"):
 	f = open(path, mode)
-	if type(date) is list:
+	if type(data) is list:
 		f.write("\n".join(data))
 	else:
 		f.write(data)
