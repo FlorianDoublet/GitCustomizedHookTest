@@ -1,6 +1,6 @@
 import os
-from hooks_util import *
 from hooks_declare import *
+import hooks_util
 
 
 # Files
@@ -21,7 +21,7 @@ def get_or_create_tmp_commit_folder(sha1):
 	return path
 
 def get_or_create_tmp_folder() :
-	path = get_root_directory() + "/" + unpushed_commit_folder
+	path = hooks_util.get_root_directory() + unpushed_commit_folder
 	
 	if not os.path.exists(path):
 		os.makedirs(path)
