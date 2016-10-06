@@ -7,7 +7,10 @@ import hooks_util
 
 def write_file(path, data, mode="a+"):
 	f = open(path, mode)
-	f.write(data)
+	if type(date) is list:
+		f.write("\n".join(data))
+	else:
+		f.write(data)
 	f.close()
 
 # Folders
