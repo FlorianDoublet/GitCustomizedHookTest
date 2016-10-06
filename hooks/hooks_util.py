@@ -84,7 +84,7 @@ def change_branch(branch_name):
 	execute_git_cmd(["checkout", branch_name], False)
 
 def merge_branch(to_merge):
-	execute_git_cmd(["merge", to_merge], False)
+	return execute_git_cmd(["merge", to_merge], False)
 
 #return a hash of information for all the unpushed commit
 def parse_unpushed_commit_tmp():
