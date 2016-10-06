@@ -19,7 +19,7 @@ def post_commit():
 	
 	status = get_diff_between_two_last_commit()
 	branch_name = get_current_branch_name()
-	log_res = execute_cmd( [ git_cmd, "log",  "--pretty=format:\"%h %B\"",  "-n",  "1" ], False )
+	log_res = execute_cmd( [ git_cmd, "log",  "--pretty=format:%h %B",  "-n",  "1" ], False )
 	log_values = log_res.split(" ", 1)
 	sha1 = log_values[0]
 
