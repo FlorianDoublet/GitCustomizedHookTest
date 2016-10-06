@@ -86,7 +86,7 @@ def change_branch(branch_name):
 def merge_branch(to_merge):
 	return execute_git_cmd(["merge", to_merge], False)
 
-def cherry-pick_commit(sha1):
+def cherry_pick_commit(sha1):
 	return execute_git_cmd([ "cherry-pick", sha1], False)
 
 #return a hash of information for all the unpushed commit
