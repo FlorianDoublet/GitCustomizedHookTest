@@ -23,8 +23,6 @@ def post_commit():
 	log_values = log_res.split(" ", 1)
 	sha1 = log_values[0]
 
-	sha1 = "coucouBranch"
-
 	message = log_values[1]
 	tmp_folder = get_or_create_tmp_folder()
 
