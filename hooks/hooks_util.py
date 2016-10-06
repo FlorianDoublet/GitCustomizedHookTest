@@ -86,6 +86,9 @@ def change_branch(branch_name):
 def merge_branch(to_merge):
 	return execute_git_cmd(["merge", to_merge], False)
 
+def cherry-pick_commit(sha1):
+	return execute_git_cmd([ "cherry-pick", sha1], False)
+
 #return a hash of information for all the unpushed commit
 def parse_unpushed_commit_tmp():
 	path = get_root_directory() + unpushed_commit_folder + unpushed_commit_file_name
