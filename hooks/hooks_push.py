@@ -54,18 +54,13 @@ def pre_push():
 		return
 
 	oldest_commit = unpushed_commit_list[0]
-	print("---> oldest commit for our branch : " + str(oldest_commit))
 
 	#get the position of the first unpushed commit for our branch
 	position_in_head = find_position_of_a_commit(commit_list ,user_refact_msg)
 
 
-	print("---> position in head we gonna reset hard : " + str(position_in_head))
-
 	#we reset hard to the head
 	git_reset_head_hard(position_in_head)
-
-	print("---> 5 last commits of master : " + str(get_the_x_last_commits(5)))
 
 	#TODO
 	#1 : on va sur la branche du plus vieux commit
@@ -76,28 +71,27 @@ def pre_push():
 	#6 : on supprime la branch et l'index dans le fichier
 
 	#1 :
-	change_branch(oldest_commit["sha1"])
+	commit_branch = oldest_commit["sha1"]
+	change_branch(commit_branch)
 
 	#2
 	message = get_the_x_last_commits(1)[0].split(" ", 1)[1]
 
-	print("---> 2 last commits of commit_branch : " + str(get_the_x_last_commits(2)))
-
 	#reset head 2 for the will be deleted commit
 	git_reset_head(2)
-
-	print("---> 2 last commits of commit_branch AFTER RESET: " + str(get_the_x_last_commits(2)))
 
 	#3 & 4
 	srv_refactor(message)
 
 	#5
 	change_branch(current_branch)
-	res = merge_branch(oldest_commit["sha1"])
-	print("---> res : " + str(res))
+	res = merge_branch(commit_branch)
 
 	#TODO finir la tache 6 !
-
+	#we remove the branch
+	execute_git_cmd([ "branch", "-d", commit_branch])
+	#and we remove the first line of 
+	delete_first_line_unpushed_commit_file_for_branch(current_branch)
 
 
 

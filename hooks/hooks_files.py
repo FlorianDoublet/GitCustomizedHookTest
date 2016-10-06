@@ -38,3 +38,15 @@ def read_file(path):
 
 def delete_folder_with_files(path):
 	shutil.rmtree(path)
+
+def delete_first_line_unpushed_commit_file_for_branch(branch):
+	unpushed_commit_file_path = hooks_util.get_root_directory() + unpushed_commit_folder + unpushed_commit_file_name
+	file_str = read_file(unpushed_commit_file_path).splitlines()
+
+	#delete the first occurence found
+	for line in file_str:
+		if branch in line:
+			file_str.remove(line)
+			break
+	#rewrite the file
+	write_file(unpushed_commit_file_path, file_str[1:], "w")
