@@ -56,7 +56,7 @@ def git_add_all():
 	execute_cmd( [ git_cmd, "add", "--all"  ], print_it=False)
 
 def get_the_x_last_commits(x):
-	last_commits = execute_git_cmd( [ "log",  "--pretty=format:\\"%h %B\\"",  "-n",  str(x) ], False )
+	last_commits = execute_git_cmd( [ "log",  "--pretty=format:\"%h %B\"",  "-n",  str(x) ], False )
 	return last_commits.splitlines()
 
 #find the positon of a commit in HEAD thank to his message or sha1
