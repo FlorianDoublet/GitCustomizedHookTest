@@ -108,7 +108,7 @@ def pre_push():
 
 		#TODO finir la tache 6 !
 		#we remove the branch
-		execute_git_cmd([ "branch", "-d", commit_branch])
+		execute_git_cmd([ "branch", "-D", commit_branch])
 		#and we remove the first line of 
 		delete_first_line_unpushed_commit_file_for_branch(current_branch)
 
