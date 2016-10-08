@@ -58,10 +58,16 @@ def pre_push():
 		position_in_head = None
 		if unpushed_commit == unpushed_commit_list[0] :
 			#get the position of the first user refactor commit
-			position_in_head = find_position_of_a_commit(commit_list ,user_refact_msg)
+			position_in_head_user_refac = find_position_of_a_commit(commit_list ,user_refact_msg)
+			position_in_head = find_position_of_a_commit(commit_list ,unpushed_commit["sha1"])
 
-			#we reset hard to the head
-			git_reset_head_hard(position_in_head)
+			if position_in_head_user_refac < position_in_head :
+				#we reset hard to the head
+				git_reset_head_hard(position_in_head)
+			else:
+				git_reset_head_hard(position_in_head_user_refac)
+
+			
 		else :
 			#get the position of the unpushed commit for our branch 
 			position_in_head = find_position_of_a_commit(commit_list ,unpushed_commit["sha1"])
