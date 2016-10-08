@@ -34,7 +34,7 @@ def pre_pull():
 		srv_refactor(str(commit_message))
 	'''
 	commit_list = get_the_x_last_commits(20)
-	#current_branch = get_current_branch_name()
+	current_branch = get_current_branch_name()
 	#unpushed_commit_list = get_unpushed_commit_for_a_branch(current_branch)
 	unpushed_commit_list = parse_unpushed_commit_tmp()
 	if unpushed_commit_list == None:
@@ -102,6 +102,7 @@ def pre_pull():
 		#and we remove the first line of 
 		delete_first_line_unpushed_commit_file_for_branch(current_branch)
 		'''
+	change_branch(current_branch)
 
 def post_pull():
 	user_refactor()
