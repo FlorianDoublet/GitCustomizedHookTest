@@ -13,6 +13,11 @@ def write_file(path, data, mode="a+"):
 		f.write(data)
 	f.close()
 
+def create_unpushed_commit_file():
+	unpushed_commit_file_path = get_or_create_tmp_folder() + unpushed_commit_file_name
+	if not os.path.isfile(unpushed_commit_file_path):
+		open(unpushed_commit_file_path, 'a').close()
+
 # Folders
 
 def get_or_create_tmp_commit_folder(sha1):
