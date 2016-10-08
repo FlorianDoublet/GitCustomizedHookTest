@@ -5,9 +5,9 @@ from hooks_refactor import *
 def pull_hook(argv):
 	#pre_pull 
 	pre_pull()
-	'''
 	#command
 	execute_git_cmd(argv)
+	'''
 	#post_pull 
 	post_pull()
 	'''
