@@ -11,18 +11,13 @@ def push_hook(argv):
 	#first, pre_push operations
 	pre_push()
 
-	#and we process to the server_refactoring
-	"""
-	srv_refactor(commit_msg)
-
 	res = execute_git_cmd(argv)
 	
-	
 	if res != 0 :
-		print("on verra")
+		print("Error in git")
 	#then post_push operations
 	post_push()
-	"""
+	
 
 def pre_push():
 
