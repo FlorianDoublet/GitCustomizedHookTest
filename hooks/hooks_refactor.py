@@ -2,23 +2,23 @@ from hooks_util import *
 from hooks_files import *
 from hooks_declare import *
 
+srv_profile = "/home/mickmouette/Documents/OPL/GitCustomizedHookTest/profiles/1/profile1.xml"
+client_profile = "/home/mickmouette/Documents/OPL/GitCustomizedHookTest/profiles/2/profile2.xml"
+refractor = "/home/mickmouette/Documents/OPL/GitCustomizedHookTest/refactor.jar"
+folder = "/home/mickmouette/Documents/OPL/GitCustomizedHookTest/test"
+
 def srv_refactor(commit_msg=None):
-	
-	#TODO : le refactoring server
-	#Du coup je fait un mock pour le moment
-	os.system("python3 mock_refac_srv.py")
+	os.system("java -jar " + refractor + " " + srv_profile + " " + folder)
 	
 	#the rebased commit (if we have to)
 	if commit_msg :
 		git_add_all()
 		git_simple_commit(commit_msg)
+
 	
 	
 def user_refactor():
-	#TODO : le user refactoring
-	#Du coup je fait un mock pour le moment
-	os.system("python3 mock_refac_usr.py")
-	
+	os.system("java -jar " + refractor + " " + client_profile + " " + folder)
 	
 	#adding all refactored files
 	git_add_all()
